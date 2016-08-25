@@ -42,12 +42,19 @@ public class BahmniDiagnosisMetadata {
         return conceptService.getConceptByName(BAHMNI_DIAGNOSIS_REVISED);
     }
 
+    private Concept diagnosisSetConcept;
+    private Concept bahmniDiagnosisStatusConcept;
+
     public Concept getBahmniDiagnosisStatus() {
-        return conceptService.getConceptByName(BAHMNI_DIAGNOSIS_STATUS);
+        if(this.bahmniDiagnosisStatusConcept == null) {
+            this.bahmniDiagnosisStatusConcept = conceptService.getConceptByName(BAHMNI_DIAGNOSIS_STATUS);
+        }
+        return this.bahmniDiagnosisStatusConcept;
     }
 
     @Autowired
-    public BahmniDiagnosisMetadata(ObsService obsService, ConceptService conceptService, EmrApiProperties emrApiProperties, EncounterTransactionMapper encounterTransactionMapper) {
+    public BahmniDiagnosisMetadata(ObsService obsService, ConceptService conceptService,
+                                   EmrApiProperties emrApiProperties, EncounterTransactionMapper encounterTransactionMapper) {
         this.obsService = obsService;
         this.conceptService = conceptService;
         this.emrApiProperties = emrApiProperties;
@@ -247,7 +254,10 @@ public class BahmniDiagnosisMetadata {
     }
 
     public Concept getDiagnosisSetConcept() {
-        return emrApiProperties.getDiagnosisMetadata().getDiagnosisSetConcept();
+        if(this.diagnosisSetConcept == null) {
+            this.diagnosisSetConcept = emrApiProperties.getDiagnosisMetadata().getDiagnosisSetConcept();
+        }
+        return this.diagnosisSetConcept;
     }
 
 }
